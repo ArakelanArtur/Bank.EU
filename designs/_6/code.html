@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LumenBridge Finance - Payments &amp; Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E2E8F0;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#3f465c",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e4e2e4",
+                        "border-subtle": "#E2E8F0",
+                        "on-tertiary-fixed": "#271901",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c6c6cd",
+                        "on-secondary-fixed": "#001a42",
+                        "surface-container-high": "#eae7e9",
+                        "on-primary-container": "#7c839b",
+                        "on-error-container": "#93000a",
+                        "status-overdue": "#7F1D1D",
+                        "on-tertiary-container": "#98805d",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "error-container": "#ffdad6",
+                        "status-rejected": "#EF4444",
+                        "secondary": "#0058be",
+                        "primary": "#000000",
+                        "on-surface-variant": "#45464d",
+                        "inverse-on-surface": "#f3f0f2",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1b1b1d",
+                        "surface-tint": "#565e74",
+                        "primary-fixed": "#dae2fd",
+                        "surface-dim": "#dcd9db",
+                        "outline": "#76777d",
+                        "surface-variant": "#e4e2e4",
+                        "secondary-container": "#2170e4",
+                        "status-pending": "#F59E0B",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "background": "#fcf8fa",
+                        "tertiary-fixed": "#fcdeb5",
+                        "surface-muted": "#F8FAFC",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "tertiary": "#000000",
+                        "surface-container-low": "#f6f3f5",
+                        "status-approved": "#10B981",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-secondary-container": "#fefcff",
+                        "primary-container": "#131b2e",
+                        "tertiary-container": "#271901",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-bright": "#fcf8fa",
+                        "on-primary-fixed": "#131b2e",
+                        "inverse-surface": "#303032",
+                        "surface": "#fcf8fa",
+                        "error": "#ba1a1a",
+                        "surface-container": "#f0edef",
+                        "on-surface": "#1b1b1d",
+                        "inverse-primary": "#bec6e0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "1rem",
+                        "stack-sm": "0.5rem",
+                        "gutter": "1.5rem",
+                        "section-gap": "5rem",
+                        "container-max": "1280px",
+                        "stack-lg": "2rem"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-base": ["Inter"],
+                        "micro": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "data-tabular": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-bold": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-base": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "micro": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "data-tabular": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-muted text-on-surface font-body-base">
+<!-- Navigation Drawer -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-surface-muted dark:bg-background border-r border-border-subtle dark:border-outline-variant flex flex-col z-50">
+<div class="px-6 py-8">
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed tracking-tight">LumenBridge</h1>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-base">Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-body-base">Clients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="font-body-base">Loans</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container border-l-2 border-secondary font-label-bold" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-base">Payments</span>
+</a>
+</nav>
+<div class="p-6 border-t border-border-subtle">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold">JD</div>
+<div>
+<p class="text-label-bold font-label-bold">Admin Profile</p>
+<p class="text-micro font-micro text-on-surface-variant">LumenBridge Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] min-h-screen">
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] bg-surface dark:bg-surface-dim border-b border-border-subtle dark:border-outline-variant flex justify-between items-center px-gutter py-stack-sm h-16 z-40">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">menu</span>
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight">Payments &amp; Verification</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-lg font-label-bold hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Manual Entry</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="pt-24 px-gutter pb-stack-lg max-w-7xl mx-auto">
+<!-- Quick Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md mb-stack-lg">
+<div class="bg-white border border-border-subtle p-5 rounded-lg">
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Awaiting Verification</p>
+<p class="text-headline-lg font-headline-lg text-secondary">24 Requests</p>
+</div>
+<div class="bg-white border border-border-subtle p-5 rounded-lg">
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Daily Volume</p>
+<p class="text-headline-lg font-headline-lg text-primary">€142,500.00</p>
+</div>
+<div class="bg-white border border-border-subtle p-5 rounded-lg">
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Successful Ledger</p>
+<p class="text-headline-lg font-headline-lg text-status-approved">98.2%</p>
+</div>
+</div>
+<!-- Bento Layout for Payment Requests -->
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md">Payment Requests</h3>
+<div class="flex items-center gap-2">
+<span class="text-micro text-on-surface-variant">Last updated: 2 mins ago</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">refresh</span>
+</div>
+</div>
+<!-- Admin Data Table / List -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-muted border-b border-border-subtle">
+<th class="px-6 py-4 font-label-bold text-micro text-on-surface-variant uppercase">Client</th>
+<th class="px-6 py-4 font-label-bold text-micro text-on-surface-variant uppercase">Amount</th>
+<th class="px-6 py-4 font-label-bold text-micro text-on-surface-variant uppercase">Date</th>
+<th class="px-6 py-4 font-label-bold text-micro text-on-surface-variant uppercase">Status</th>
+<th class="px-6 py-4 font-label-bold text-micro text-on-surface-variant uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Item 1: Pending Verification -->
+<tr class="hover:bg-primary-fixed/10 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+<div>
+<p class="font-data-tabular text-body-base font-semibold">Alex J.</p>
+<p class="text-micro text-on-surface-variant">ID: LB-92831</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-data-tabular text-body-base font-bold">€450.00</td>
+<td class="px-6 py-4 font-data-tabular text-body-base text-on-surface-variant">24 Oct, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-label-bold bg-status-pending/10 text-status-pending border border-status-pending/20 uppercase tracking-tighter">
+                                            PENDING VERIFICATION
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="px-3 py-1.5 bg-status-approved text-white rounded text-micro font-label-bold hover:brightness-95 active:scale-95 transition-all">
+                                                Confirm
+                                            </button>
+<button class="px-3 py-1.5 border border-status-rejected text-status-rejected rounded text-micro font-label-bold hover:bg-status-rejected/5 active:scale-95 transition-all">
+                                                Decline
+                                            </button>
+</div>
+</td>
+</tr>
+<!-- Item 2: Confirmed -->
+<tr class="hover:bg-primary-fixed/10 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+<div>
+<p class="font-data-tabular text-body-base font-semibold">Sarah K.</p>
+<p class="text-micro text-on-surface-variant">ID: LB-77420</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-data-tabular text-body-base font-bold">€1,200.00</td>
+<td class="px-6 py-4 font-data-tabular text-body-base text-on-surface-variant">23 Oct, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-label-bold bg-status-approved/10 text-status-approved border border-status-approved/20 uppercase tracking-tighter">
+                                            CONFIRMED
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Additional Mock Item for Visual Balance -->
+<tr class="bg-surface-muted/50 hover:bg-primary-fixed/10 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+<div>
+<p class="font-data-tabular text-body-base font-semibold">Marcus T.</p>
+<p class="text-micro text-on-surface-variant">ID: LB-81002</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-data-tabular text-body-base font-bold">€3,500.00</td>
+<td class="px-6 py-4 font-data-tabular text-body-base text-on-surface-variant">22 Oct, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-label-bold bg-status-overdue/10 text-status-overdue border border-status-overdue/20 uppercase tracking-tighter">
+                                            REJECTED
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Secondary High-End Section: Verification Insights -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-white border border-border-subtle p-6 rounded-xl">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-label-bold text-primary">Audit Log</h4>
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-4 pb-4 border-b border-border-subtle">
+<div class="text-micro font-label-bold text-on-surface-variant w-16">14:22 PM</div>
+<div class="flex-1">
+<p class="text-label-bold">Payment #LB-77420 verified by Admin</p>
+<p class="text-micro text-on-surface-variant">Source IP: 192.168.1.44 • Agent: Chrome/MacOS</p>
+</div>
+</div>
+<div class="flex gap-4 pb-4 border-b border-border-subtle">
+<div class="text-micro font-label-bold text-on-surface-variant w-16">11:05 AM</div>
+<div class="flex-1">
+<p class="text-label-bold">New request LB-92831 flagged for high-risk IP</p>
+<p class="text-micro text-on-surface-variant">Automated Identity Check required.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary-container text-on-primary-container p-6 rounded-xl relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-headline-md text-white mb-2">Institutional Trust Summary</h4>
+<p class="text-primary-fixed-dim text-body-base mb-6">LumenBridge verification engine ensures zero-day settlement precision for all B2B transactions.</p>
+<div class="flex items-center gap-6">
+<div>
+<p class="text-display-lg text-white font-display-lg">1.2s</p>
+<p class="text-micro uppercase text-primary-fixed-dim">Avg. Latency</p>
+</div>
+<div class="w-px h-12 bg-on-primary-fixed-variant"></div>
+<div>
+<p class="text-display-lg text-white font-display-lg">0%</p>
+<p class="text-micro uppercase text-primary-fixed-dim">Fraud Leakage</p>
+</div>
+</div>
+</div>
+<!-- Abstract Background Decoration -->
+<div class="absolute -right-12 -bottom-12 w-48 h-48 bg-secondary-container rounded-full blur-3xl opacity-20"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Feedback (Toast simulation) -->
+<div class="fixed bottom-8 right-8 bg-inverse-surface text-inverse-on-surface px-6 py-3 rounded-lg shadow-2xl flex items-center gap-3 translate-y-24 opacity-0 transition-all duration-500 z-[100]" id="toast">
+<span class="material-symbols-outlined text-status-approved">check_circle</span>
+<span class="font-label-bold">Payment Verified Successfully</span>
+</div>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if(this.textContent.trim() === 'Confirm') {
+                    const toast = document.getElementById('toast');
+                    toast.classList.remove('translate-y-24', 'opacity-0');
+                    setTimeout(() => {
+                        toast.classList.add('translate-y-24', 'opacity-0');
+                    }, 3000);
+                }
+            });
+        });
+
+        // Hover effect enhancement
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.borderLeft = "4px solid #0058be";
+                row.style.paddingLeft = "20px";
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.borderLeft = "none";
+                row.style.paddingLeft = "24px";
+            });
+        });
+    </script>
+</body></html>

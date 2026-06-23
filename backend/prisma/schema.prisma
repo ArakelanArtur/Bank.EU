@@ -1,0 +1,253 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum UserType {
+  INDIVIDUAL
+  BUSINESS
+}
+
+enum ApplicationStatus {
+  NEW
+  IN_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum ApplicationSource {
+  PUBLIC_SITE
+  CABINET
+}
+
+enum LoanStatus {
+  PENDING_SIGNATURE
+  ACTIVE
+  OVERDUE
+  CLOSED
+  REJECTED
+}
+
+enum PaymentScheduleStatus {
+  PENDING
+  PARTIAL
+  PAID
+  OVERDUE
+}
+
+enum PaymentRequestStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum NotificationType {
+  APPLICATION_STATUS_CHANGED
+  LOAN_APPROVED
+  LOAN_SIGN_REQUIRED
+  PAYMENT_REQUEST_UPDATED
+  PAYMENT_CONFIRMED
+  LOAN_CLOSED
+  LOAN_SIGNED
+}
+
+enum OtpPurpose {
+  LOGIN
+  LOAN_SIGN
+}
+
+enum AdminRole {
+  ADMIN
+  OPERATOR
+}
+
+model User {
+  id              String             @id @default(cuid())
+  phone           String             @unique
+  email           String?
+  fullName        String?
+  passwordHash    String?
+  userType        UserType
+  isVerified      Boolean            @default(false)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  businessProfile BusinessProfile?
+  applications    LoanApplication[]
+  loans           Loan[]
+  paymentRequests PaymentRequest[]
+  notifications   Notification[]
+  otpSessions     OtpSession[]
+}
+
+model BusinessProfile {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  companyName        String
+  registrationNumber String
+  businessType       String?
+  contactPerson      String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AdminUser {
+  id                String           @id @default(cuid())
+  login             String           @unique
+  passwordHash      String
+  role              AdminRole
+  name              String
+  isActive          Boolean          @default(true)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  applicationNotes  ApplicationNote[]
+  reviewedRequests  PaymentRequest[] @relation("ReviewedByAdmin")
+  recordedPayments  Payment[]
+}
+
+model LoanApplication {
+  id                 String             @id @default(cuid())
+  applicationNumber  String             @unique
+  userId             String
+  applicantType      UserType
+  amount             Float
+  termDays           Int
+  dailyRate          Float
+  status             ApplicationStatus  @default(NEW)
+  source             ApplicationSource
+  phone              String
+  email              String?
+  fullName           String?
+  companyName        String?
+  registrationNumber String?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notes              ApplicationNote[]
+  loan               Loan?
+}
+
+model ApplicationNote {
+  id            String          @id @default(cuid())
+  applicationId String
+  adminUserId   String
+  content       String
+  createdAt     DateTime        @default(now())
+  application   LoanApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  adminUser     AdminUser       @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+}
+
+model Loan {
+  id               String                @id @default(cuid())
+  loanNumber       String                @unique
+  applicationId    String                @unique
+  userId           String
+  principalAmount  Float
+  termDays         Int
+  dailyRate        Float
+  annuityPayment   Float
+  totalRepayment   Float
+  status           LoanStatus            @default(PENDING_SIGNATURE)
+  signedAt         DateTime?
+  signedIp         String?
+  signedUserAgent  String?
+  issuedAt         DateTime?
+  closedAt         DateTime?
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  application      LoanApplication       @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  user             User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paymentSchedule  PaymentScheduleItem[]
+  paymentRequests  PaymentRequest[]
+  payments         Payment[]
+  otpSessions      OtpSession[]
+}
+
+model PaymentScheduleItem {
+  id                String                @id @default(cuid())
+  loanId            String
+  installmentNumber Int
+  dueDate           DateTime
+  amountDue         Float
+  principalPart     Float
+  interestPart      Float
+  status            PaymentScheduleStatus @default(PENDING)
+  paidAt            DateTime?
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  loan              Loan                  @relation(fields: [loanId], references: [id], onDelete: Cascade)
+
+  @@unique([loanId, installmentNumber])
+}
+
+model PaymentRequest {
+  id                String               @id @default(cuid())
+  loanId            String
+  userId            String
+  amount            Float
+  reference         String
+  details           String?
+  receiptFileName   String?
+  status            PaymentRequestStatus @default(PENDING_REVIEW)
+  createdAt         DateTime             @default(now())
+  reviewedAt        DateTime?
+  reviewedByAdminId String?
+  loan              Loan                 @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviewedByAdmin   AdminUser?           @relation("ReviewedByAdmin", fields: [reviewedByAdminId], references: [id], onDelete: SetNull)
+  payment           Payment?
+}
+
+model Payment {
+  id               String          @id @default(cuid())
+  loanId           String
+  paymentRequestId String?         @unique
+  amount           Float
+  reference        String
+  effectiveDate    DateTime
+  recordedByAdminId String
+  recordedAt       DateTime        @default(now())
+  createdAt        DateTime        @default(now())
+  loan             Loan            @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  paymentRequest   PaymentRequest? @relation(fields: [paymentRequestId], references: [id], onDelete: SetNull)
+  recordedByAdmin  AdminUser       @relation(fields: [recordedByAdminId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model OtpSession {
+  id            String      @id @default(cuid())
+  phone         String
+  purpose       OtpPurpose
+  code          String
+  expiresAt     DateTime
+  verifiedAt    DateTime?
+  relatedUserId String?
+  relatedLoanId String?
+  createdAt     DateTime    @default(now())
+  user          User?       @relation(fields: [relatedUserId], references: [id], onDelete: SetNull)
+  loan          Loan?       @relation(fields: [relatedLoanId], references: [id], onDelete: SetNull)
+}
+
+model ContactRequest {
+  id               String   @id @default(cuid())
+  name             String
+  email            String
+  phone            String?
+  message          String
+  attachmentName   String?
+  consentAccepted  Boolean
+  createdAt        DateTime @default(now())
+}

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LumenBridge Finance - Applications</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "inverse-on-surface": "#eff1f3",
+                "on-surface-variant": "#45464d",
+                "secondary": "#0051d5",
+                "primary": "#000000",
+                "error-container": "#ffdad6",
+                "tertiary-fixed-dim": "#4edea3",
+                "on-tertiary": "#ffffff",
+                "surface-white": "#ffffff",
+                "on-error-container": "#93000a",
+                "on-tertiary-container": "#009668",
+                "on-tertiary-fixed-variant": "#005236",
+                "secondary-container": "#316bf3",
+                "surface-dim": "#d8dadc",
+                "outline": "#76777d",
+                "surface-variant": "#e0e3e5",
+                "surface-tint": "#565e74",
+                "primary-fixed": "#dae2fd",
+                "on-primary": "#ffffff",
+                "on-background": "#191c1e",
+                "border-subtle": "#e2e8f0",
+                "surface-container-highest": "#e0e3e5",
+                "surface-container-lowest": "#ffffff",
+                "on-primary-fixed-variant": "#3f465c",
+                "on-secondary": "#ffffff",
+                "primary-fixed-dim": "#bec6e0",
+                "on-primary-container": "#7c839b",
+                "surface-container-high": "#e6e8ea",
+                "on-secondary-fixed": "#00174b",
+                "outline-variant": "#c6c6cd",
+                "on-error": "#ffffff",
+                "on-tertiary-fixed": "#002113",
+                "surface": "#f7f9fb",
+                "inverse-surface": "#2d3133",
+                "approved-emerald": "#059669",
+                "surface-bright": "#f7f9fb",
+                "on-primary-fixed": "#131b2e",
+                "inverse-primary": "#bec6e0",
+                "surface-container": "#eceef0",
+                "on-surface": "#191c1e",
+                "error": "#ba1a1a",
+                "tertiary": "#000000",
+                "secondary-fixed-dim": "#b4c5ff",
+                "tertiary-fixed": "#6ffbbe",
+                "background": "#f7f9fb",
+                "tertiary-container": "#002113",
+                "secondary-fixed": "#dbe1ff",
+                "primary-container": "#131b2e",
+                "processing-amber": "#d97706",
+                "rejected-rose": "#e11d48",
+                "on-secondary-fixed-variant": "#003ea8",
+                "on-secondary-container": "#fefcff",
+                "surface-container-low": "#f2f4f6",
+                "deep-slate-blue": "#0f172a"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "margin-mobile": "1rem",
+                "component-padding": "1.5rem",
+                "container-max": "1280px",
+                "gutter": "1.5rem",
+                "section-gap": "5rem"
+              },
+              "fontFamily": {
+                "headline-lg": ["Inter"],
+                "label-md": ["Inter"],
+                "label-sm-caps": ["Inter"],
+                "headline-lg-mobile": ["Inter"],
+                "headline-md": ["Inter"],
+                "body-lg": ["Inter"],
+                "numeric-display": ["Inter"],
+                "body-md": ["Inter"]
+              },
+              "fontSize": {
+                "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                "label-sm-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "numeric-display": ["36px", {"lineHeight": "1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .sidebar-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- Mobile Navigation Drawer Overlay -->
+<div class="fixed inset-0 z-50 hidden sidebar-overlay md:hidden" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<!-- Navigation Drawer -->
+<aside class="fixed left-0 top-0 h-full w-[280px] bg-deep-slate-blue border-r border-white/10 z-50 flex flex-col -translate-x-full md:translate-x-0 transition-transform duration-300" id="sidebar">
+<div class="p-gutter h-16 flex items-center">
+<span class="font-headline-md text-headline-md text-white font-bold">LumenBridge</span>
+</div>
+<nav class="flex-1 px-4 mt-4 space-y-1">
+<!-- Applications Active -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container rounded-lg text-on-secondary-container font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-lg transition-colors duration-200 font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Clients</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-lg transition-colors duration-200 font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span>Loans</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white/70 hover:bg-white/5 hover:text-white rounded-lg transition-colors duration-200 font-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Payments</span>
+</a>
+</nav>
+<div class="p-gutter border-t border-white/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-white/10 flex items-center justify-center text-white font-bold">
+                    OP
+                </div>
+<div>
+<p class="text-label-md text-white">Operator 04</p>
+<p class="text-label-sm-caps text-white/60">LumenBridge HQ</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<div class="md:ml-[280px] flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-full md:w-[calc(100%-280px)] flex justify-between items-center px-margin-mobile h-16 z-40 bg-surface-white border-b border-border-subtle">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 active:scale-95 transition-transform text-on-surface" onclick="toggleSidebar()">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary">Dashboard</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container transition-colors rounded-full relative active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-primary font-label-md hover:bg-surface-container px-3 py-1.5 rounded transition-colors">
+                    Admin Profile
+                </button>
+</div>
+</header>
+<!-- Page Canvas -->
+<main class="mt-16 p-gutter pb-32">
+<!-- Filter Bar Section -->
+<div class="mb-gutter">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-primary">Applications</h2>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-4 py-2.5 rounded-lg font-label-md hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                        New Application
+                    </button>
+</div>
+<!-- Horizontal Filter Chips -->
+<div class="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-secondary text-on-secondary font-label-md">All (24)</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full border border-border-subtle hover:bg-surface-container-low transition-colors font-label-md">New (8)</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full border border-border-subtle hover:bg-surface-container-low transition-colors font-label-md">In Progress (12)</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full border border-border-subtle hover:bg-surface-container-low transition-colors font-label-md text-on-surface-variant">Approved/Rejected</button>
+</div>
+</div>
+<!-- Applications Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Card 1: Processing -->
+<div class="bg-surface-white rounded-xl border border-border-subtle hover:shadow-lg transition-all p-6 flex flex-col gap-5 relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-processing-amber"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm-caps text-outline mb-1">ID LB-9421</p>
+<h3 class="font-headline-md text-primary">TechSolutions Nordic AB</h3>
+</div>
+<span class="px-3 py-1 rounded-full bg-amber-50 text-processing-amber text-[10px] font-bold uppercase tracking-widest border border-processing-amber/20">Processing</span>
+</div>
+<div class="grid grid-cols-2 gap-4 py-3 border-y border-surface-container-low">
+<div>
+<p class="text-label-sm-caps text-outline">Amount</p>
+<p class="font-bold text-body-md">€450,000</p>
+</div>
+<div>
+<p class="text-label-sm-caps text-outline">Term</p>
+<p class="font-bold text-body-md">24 Months</p>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-label-sm-caps mb-2">
+<span class="text-on-surface-variant">Review Progress</span>
+<span class="font-bold text-primary">65%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-processing-amber transition-all duration-700" style="width: 65%"></div>
+</div>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="text-label-sm-caps text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="history">history</span>
+                            Active 2h ago
+                        </span>
+<button class="text-secondary font-label-md hover:translate-x-1 transition-transform flex items-center gap-1">
+                            View Details
+                            <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Card 2: New -->
+<div class="bg-surface-white rounded-xl border border-border-subtle hover:shadow-lg transition-all p-6 flex flex-col gap-5 relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm-caps text-outline mb-1">ID LB-9424</p>
+<h3 class="font-headline-md text-primary">BioMed Innovations</h3>
+</div>
+<span class="px-3 py-1 rounded-full bg-blue-50 text-secondary text-[10px] font-bold uppercase tracking-widest border border-secondary/20">New</span>
+</div>
+<div class="grid grid-cols-2 gap-4 py-3 border-y border-surface-container-low">
+<div>
+<p class="text-label-sm-caps text-outline">Amount</p>
+<p class="font-bold text-body-md">€320,000</p>
+</div>
+<div>
+<p class="text-label-sm-caps text-outline">Term</p>
+<p class="font-bold text-body-md">36 Months</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 mt-4">
+<button class="w-full py-3 bg-secondary text-on-secondary rounded-lg font-label-md hover:opacity-95 active:scale-[0.98] transition-all">
+                            Start Review
+                        </button>
+<button class="w-full py-3 border border-border-subtle text-on-surface-variant rounded-lg font-label-md hover:bg-surface-container-low transition-colors active:scale-[0.98]">
+                            Assign to Specialist
+                        </button>
+</div>
+</div>
+<!-- Card 3: Approved -->
+<div class="bg-surface-white rounded-xl border border-border-subtle hover:shadow-lg transition-all p-6 flex flex-col gap-5 relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-approved-emerald"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-label-sm-caps text-outline mb-1">ID LB-9422</p>
+<h3 class="font-headline-md text-primary">EuroCargo Logistics</h3>
+</div>
+<span class="px-3 py-1 rounded-full bg-emerald-50 text-approved-emerald text-[10px] font-bold uppercase tracking-widest border border-approved-emerald/20">Approved</span>
+</div>
+<div class="grid grid-cols-2 gap-4 py-3 border-y border-surface-container-low">
+<div>
+<p class="text-label-sm-caps text-outline">Amount</p>
+<p class="font-bold text-body-md">€1,200,000</p>
+</div>
+<div>
+<p class="text-label-sm-caps text-outline">Term</p>
+<p class="font-bold text-body-md">48 Months</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-approved-emerald/10 flex items-center justify-center text-approved-emerald">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+</div>
+<div>
+<p class="text-label-md text-primary">Credit Limit Verified</p>
+<p class="text-label-sm-caps text-outline">By Anna S. • Today, 09:12 AM</p>
+</div>
+</div>
+<div class="flex justify-end mt-2">
+<button class="flex items-center gap-1 text-secondary font-label-md hover:translate-x-1 transition-transform">
+                            Generate Contract
+                            <span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Bento Style Analytics Card -->
+<div class="bg-deep-slate-blue text-white rounded-xl p-6 flex flex-col justify-between min-h-[240px] shadow-lg">
+<div>
+<h4 class="font-headline-md mb-2">Liquidity Pulse</h4>
+<p class="text-body-md text-white/60">Weekly target: €2.5M of €4.0M processed.</p>
+</div>
+<div class="flex items-end justify-between mt-6">
+<div class="flex gap-2 h-24 items-end">
+<div class="w-4 bg-secondary/40 h-12 rounded-t-sm"></div>
+<div class="w-4 bg-secondary/60 h-16 rounded-t-sm"></div>
+<div class="w-4 bg-secondary/80 h-20 rounded-t-sm"></div>
+<div class="w-4 bg-secondary-container h-24 rounded-t-sm shadow-[0_0_15px_rgba(49,107,243,0.3)]"></div>
+<div class="w-4 bg-white/20 h-14 rounded-t-sm"></div>
+</div>
+<div class="text-right">
+<p class="text-numeric-display font-bold leading-none">62%</p>
+<p class="text-label-sm-caps text-white/40 tracking-widest mt-1">EFFICIENCY</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-white border-t border-border-subtle h-20 flex items-center justify-around px-4 z-40 pb-safe shadow-sm rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-sm-caps active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span>Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary font-bold font-label-sm-caps active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="assignment">assignment</span>
+<span>Apps</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-sm-caps active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="payments">payments</span>
+<span>Loans</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-sm-caps active:scale-90 transition-all duration-200" href="#" onclick="toggleSidebar()">
+<span class="material-symbols-outlined mb-1" data-icon="menu">menu</span>
+<span>More</span>
+</a>
+</nav>
+</div>
+<script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+    </script>
+</body></html>

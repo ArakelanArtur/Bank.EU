@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LumenBridge Admin Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-dot::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            background-color: #EF4444;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container": "#f0edef",
+                      "surface-container-high": "#eae7e9",
+                      "on-surface-variant": "#45464d",
+                      "on-secondary-container": "#fefcff",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "status-pending": "#F59E0B",
+                      "primary-fixed-dim": "#bec6e0",
+                      "status-rejected": "#EF4444",
+                      "tertiary-fixed-dim": "#dec29a",
+                      "error": "#ba1a1a",
+                      "on-error-container": "#93000a",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "on-surface": "#1b1b1d",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed": "#d8e2ff",
+                      "primary-container": "#131b2e",
+                      "on-primary": "#ffffff",
+                      "surface": "#fcf8fa",
+                      "inverse-surface": "#303032",
+                      "surface-bright": "#fcf8fa",
+                      "on-primary-container": "#7c839b",
+                      "on-primary-fixed": "#131b2e",
+                      "on-tertiary-fixed": "#271901",
+                      "inverse-on-surface": "#f3f0f2",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error": "#ffffff",
+                      "outline": "#76777d",
+                      "border-subtle": "#E2E8F0",
+                      "inverse-primary": "#bec6e0",
+                      "on-background": "#1b1b1d",
+                      "on-tertiary-fixed-variant": "#574425",
+                      "surface-muted": "#F8FAFC",
+                      "status-overdue": "#7F1D1D",
+                      "surface-variant": "#e4e2e4",
+                      "surface-container-highest": "#e4e2e4",
+                      "surface-dim": "#dcd9db",
+                      "on-secondary-fixed-variant": "#004395",
+                      "tertiary-container": "#271901",
+                      "on-tertiary-container": "#98805d",
+                      "surface-container-low": "#f6f3f5",
+                      "on-secondary-fixed": "#001a42",
+                      "secondary-container": "#2170e4",
+                      "secondary": "#0058be",
+                      "secondary-fixed-dim": "#adc6ff",
+                      "primary-fixed": "#dae2fd",
+                      "outline-variant": "#c6c6cd",
+                      "tertiary": "#000000",
+                      "background": "#fcf8fa",
+                      "tertiary-fixed": "#fcdeb5",
+                      "surface-tint": "#565e74",
+                      "primary": "#000000",
+                      "status-approved": "#10B981"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "stack-sm": "0.5rem",
+                      "gutter": "1.5rem",
+                      "section-gap": "5rem",
+                      "stack-md": "1rem",
+                      "container-max": "1280px",
+                      "stack-lg": "2rem"
+              },
+              "fontFamily": {
+                      "display-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "label-bold": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "data-tabular": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "micro": ["Inter"],
+                      "body-base": ["Inter"],
+                      "headline-lg-mobile": ["Inter"]
+              },
+              "fontSize": {
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "label-bold": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "data-tabular": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "micro": ["12px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                      "body-base": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-muted text-on-surface font-body-base antialiased">
+<!-- Sidebar Navigation (Drawer) -->
+<aside class="h-screen w-[280px] fixed left-0 top-0 bg-white dark:bg-surface-container-highest border-r border-border-subtle dark:border-outline-variant hidden lg:flex flex-col h-full z-50" id="sidebar">
+<div class="px-gutter py-stack-lg border-b border-border-subtle">
+<h1 class="font-headline-md text-headline-md text-on-primary-fixed">LumenBridge</h1>
+<p class="text-on-surface-variant font-micro text-micro">Institutional Portal</p>
+</div>
+<div class="flex flex-col flex-1 py-stack-md overflow-y-auto">
+<!-- Navigation Items -->
+<a class="cursor-pointer flex items-center gap-stack-md py-stack-md px-gutter transition-all hover:bg-surface-container dark:hover:bg-surface-container-high text-on-surface-variant dark:text-on-primary-container" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-bold text-label-bold">Dashboard</span>
+</a>
+<a class="cursor-pointer flex items-center gap-stack-md py-stack-md px-gutter transition-all border-l-2 border-secondary bg-surface-muted text-secondary dark:bg-primary-container dark:text-secondary-fixed-dim" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-bold text-label-bold">Applications</span>
+</a>
+<a class="cursor-pointer flex items-center gap-stack-md py-stack-md px-gutter transition-all hover:bg-surface-container dark:hover:bg-surface-container-high text-on-surface-variant dark:text-on-primary-container" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-bold text-label-bold">Clients</span>
+</a>
+<a class="cursor-pointer flex items-center gap-stack-md py-stack-md px-gutter transition-all hover:bg-surface-container dark:hover:bg-surface-container-high text-on-surface-variant dark:text-on-primary-container" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="font-label-bold text-label-bold">Loans</span>
+</a>
+<a class="cursor-pointer flex items-center gap-stack-md py-stack-md px-gutter transition-all hover:bg-surface-container dark:hover:bg-surface-container-high text-on-surface-variant dark:text-on-primary-container" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-bold text-label-bold">Payments</span>
+</a>
+<a class="cursor-pointer flex items-center gap-stack-md py-stack-md px-gutter transition-all hover:bg-surface-container dark:hover:bg-surface-container-high text-on-surface-variant dark:text-on-primary-container mt-auto" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-bold text-label-bold">Settings</span>
+</a>
+</div>
+<div class="p-gutter border-t border-border-subtle flex items-center gap-stack-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold">
+                AD
+            </div>
+<div>
+<p class="font-label-bold text-label-bold">LumenBridge Admin</p>
+<p class="text-micro font-micro text-on-surface-variant">Operator Mode</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="lg:ml-[280px] min-h-screen flex flex-col pb-20 lg:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface-muted dark:bg-surface-container-low border-b border-border-subtle dark:border-outline-variant flex justify-between items-center px-gutter py-stack-sm w-full">
+<div class="flex items-center gap-stack-md">
+<button class="lg:hidden text-secondary" onclick="toggleMobileMenu()">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h2 class="font-headline-md text-headline-md font-bold text-on-primary-fixed dark:text-primary-fixed-dim">Applications</h2>
+</div>
+<div class="flex items-center gap-stack-md">
+<div class="hidden md:flex flex-col text-right">
+<span class="font-label-bold text-label-bold text-secondary">Admin Role</span>
+<span class="text-micro font-micro text-on-surface-variant">Verified Session</span>
+</div>
+<div class="relative active-dot cursor-pointer transition-opacity hover:opacity-80 p-1">
+<span class="material-symbols-outlined text-secondary" data-icon="notifications">notifications</span>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<section class="p-gutter flex-1">
+<!-- Filter Bar -->
+<div class="mb-stack-lg overflow-x-auto">
+<div class="flex items-center gap-stack-sm min-w-max pb-2">
+<button class="px-gutter py-2 rounded-full bg-secondary text-on-secondary font-label-bold text-label-bold">All (24)</button>
+<button class="px-gutter py-2 rounded-full border border-border-subtle hover:bg-surface-container transition-colors font-label-bold text-label-bold">New (8)</button>
+<button class="px-gutter py-2 rounded-full border border-border-subtle hover:bg-surface-container transition-colors font-label-bold text-label-bold">Processing (12)</button>
+<button class="px-gutter py-2 rounded-full border border-border-subtle hover:bg-surface-container transition-colors font-label-bold text-label-bold">Approved (4)</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-stack-md">
+<!-- Application Card 1 (Detailed Preview) -->
+<div class="bg-white rounded-xl border border-border-subtle p-stack-md hover:shadow-md transition-shadow cursor-pointer" onclick="openDetailView('LB-9421')">
+<div class="flex justify-between items-start mb-stack-sm">
+<div>
+<span class="text-micro font-micro text-on-surface-variant mb-1 block">ID: LB-9421</span>
+<h3 class="font-headline-md text-[18px] font-bold">TechSolutions Nordic AB</h3>
+</div>
+<span class="px-2 py-1 bg-amber-100 text-status-pending text-[10px] font-bold rounded uppercase">Processing</span>
+</div>
+<div class="grid grid-cols-2 gap-stack-md mb-stack-md">
+<div>
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Loan Amount</p>
+<p class="font-label-bold text-label-bold">€450,000</p>
+</div>
+<div>
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Term</p>
+<p class="font-label-bold text-label-bold">24 Months</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mb-stack-md">
+<div class="w-full bg-surface-muted h-1.5 rounded-full overflow-hidden">
+<div class="bg-status-pending h-full w-2/3"></div>
+</div>
+<span class="text-micro font-micro font-bold">65%</span>
+</div>
+<div class="flex justify-between items-center pt-stack-sm border-t border-border-subtle">
+<span class="text-micro font-micro text-on-surface-variant">Last activity: 2 hours ago</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-300"></div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-blue-300"></div>
+</div>
+</div>
+</div>
+<!-- Application Card 2 -->
+<div class="bg-white rounded-xl border border-border-subtle p-stack-md hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-stack-sm">
+<div>
+<span class="text-micro font-micro text-on-surface-variant mb-1 block">ID: LB-9422</span>
+<h3 class="font-headline-md text-[18px] font-bold">EuroCargo Logistics</h3>
+</div>
+<span class="px-2 py-1 bg-green-100 text-status-approved text-[10px] font-bold rounded uppercase">Approved</span>
+</div>
+<div class="grid grid-cols-2 gap-stack-md mb-stack-md">
+<div>
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Loan Amount</p>
+<p class="font-label-bold text-label-bold">€1,200,000</p>
+</div>
+<div>
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Term</p>
+<p class="font-label-bold text-label-bold">48 Months</p>
+</div>
+</div>
+<div class="flex justify-between items-center pt-stack-sm border-t border-border-subtle">
+<span class="text-micro font-micro text-on-surface-variant">Finalized: Today, 09:12 AM</span>
+<button class="text-secondary font-label-bold text-label-bold flex items-center gap-1">
+                            View Docs <span class="material-symbols-outlined text-[16px]" data-icon="open_in_new">open_in_new</span>
+</button>
+</div>
+</div>
+<!-- Application Card 3 -->
+<div class="bg-white rounded-xl border border-border-subtle p-stack-md hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-stack-sm">
+<div>
+<span class="text-micro font-micro text-on-surface-variant mb-1 block">ID: LB-9423</span>
+<h3 class="font-headline-md text-[18px] font-bold">Vertex Creative Studio</h3>
+</div>
+<span class="px-2 py-1 bg-red-100 text-status-rejected text-[10px] font-bold rounded uppercase">Rejected</span>
+</div>
+<div class="grid grid-cols-2 gap-stack-md mb-stack-md">
+<div>
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Loan Amount</p>
+<p class="font-label-bold text-label-bold">€85,000</p>
+</div>
+<div>
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Term</p>
+<p class="font-label-bold text-label-bold">12 Months</p>
+</div>
+</div>
+<div class="flex justify-between items-center pt-stack-sm border-t border-border-subtle">
+<span class="text-micro font-micro text-status-rejected font-bold">Credit Score Insufficient</span>
+<span class="text-micro font-micro text-on-surface-variant italic">Ref No: LB-REJ-99</span>
+</div>
+</div>
+<!-- Application Card 4 -->
+<div class="bg-white rounded-xl border border-border-subtle p-stack-md hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-stack-sm">
+<div>
+<span class="text-micro font-micro text-on-surface-variant mb-1 block">ID: LB-9424</span>
+<h3 class="font-headline-md text-[18px] font-bold">BioMed Innovations</h3>
+</div>
+<span class="px-2 py-1 bg-blue-100 text-secondary text-[10px] font-bold rounded uppercase">New</span>
+</div>
+<div class="grid grid-cols-2 gap-stack-md mb-stack-md">
+<div>
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Loan Amount</p>
+<p class="font-label-bold text-label-bold">€320,000</p>
+</div>
+<div>
+<p class="text-micro font-micro text-on-surface-variant uppercase tracking-wider">Term</p>
+<p class="font-label-bold text-label-bold">36 Months</p>
+</div>
+</div>
+<div class="pt-stack-sm border-t border-border-subtle">
+<button class="w-full py-2 bg-secondary text-on-secondary rounded font-label-bold text-label-bold">Start Review</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer (Hidden on Mobile, Info on Desktop) -->
+<footer class="w-full py-stack-lg border-t border-border-subtle dark:border-outline-variant bg-surface-muted dark:bg-surface-dim hidden md:block">
+<div class="flex flex-col md:flex-row justify-between items-center px-gutter gap-stack-md max-w-container-max mx-auto">
+<span class="font-micro text-micro text-on-surface-variant dark:text-on-primary-container">© 2024 LumenBridge Finance Ltd. Regulated by FCA.</span>
+<div class="flex gap-stack-lg">
+<a class="font-micro text-micro text-on-surface-variant dark:text-on-primary-container hover:text-secondary transition-colors" href="#">Regulatory Disclosure</a>
+<a class="font-micro text-micro text-on-surface-variant dark:text-on-primary-container hover:text-secondary transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</main>
+<!-- Detail View Overlay (Modal Style) -->
+<div class="fixed inset-0 z-50 glass-panel flex flex-col hidden overflow-y-auto" id="detail-overlay">
+<nav class="sticky top-0 bg-white border-b border-border-subtle p-gutter flex justify-between items-center">
+<div class="flex items-center gap-stack-md">
+<button class="text-on-surface" onclick="closeDetailView()">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+<h4 class="font-headline-md text-headline-md">Application Detail</h4>
+</div>
+<span class="text-micro font-bold text-on-surface-variant">ID: LB-9421</span>
+</nav>
+<div class="flex-1 p-gutter max-w-[800px] mx-auto w-full space-y-stack-lg">
+<!-- Summary Card -->
+<div class="bg-white border border-border-subtle p-stack-lg rounded-xl shadow-sm">
+<div class="mb-stack-lg">
+<h2 class="font-display-lg text-[28px] mb-2">TechSolutions Nordic AB</h2>
+<p class="text-body-base text-on-surface-variant">Registered in Stockholm, Sweden (SE-556123-4567)</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-stack-md mb-stack-lg">
+<div>
+<p class="text-micro font-micro uppercase text-on-surface-variant mb-1">Status</p>
+<span class="px-2 py-0.5 bg-amber-100 text-status-pending text-[10px] font-bold rounded">PROCESSING</span>
+</div>
+<div>
+<p class="text-micro font-micro uppercase text-on-surface-variant mb-1">Loan Amount</p>
+<p class="font-label-bold text-label-bold">€450,000</p>
+</div>
+<div>
+<p class="text-micro font-micro uppercase text-on-surface-variant mb-1">Duration</p>
+<p class="font-label-bold text-label-bold">24 Months</p>
+</div>
+<div>
+<p class="text-micro font-micro uppercase text-on-surface-variant mb-1">Avg. Monthly</p>
+<p class="font-label-bold text-label-bold">€19,250</p>
+</div>
+</div>
+<div class="space-y-stack-sm">
+<div class="flex items-center gap-2 p-stack-sm bg-surface-muted rounded border border-border-subtle">
+<span class="material-symbols-outlined text-secondary" data-icon="verified">verified</span>
+<span class="text-label-bold font-label-bold">Company registration verified</span>
+</div>
+<div class="flex items-center gap-2 p-stack-sm bg-surface-muted rounded border border-border-subtle">
+<span class="material-symbols-outlined text-secondary" data-icon="credit_score">credit_score</span>
+<span class="text-label-bold font-label-bold">Credit score check: 742 (High Confidence)</span>
+</div>
+</div>
+</div>
+<!-- Documents Section -->
+<div class="space-y-stack-sm">
+<h5 class="font-label-bold text-label-bold uppercase text-on-surface-variant px-1">Evidence &amp; Documents</h5>
+<div class="bg-white border border-border-subtle rounded-xl divide-y divide-border-subtle">
+<div class="p-stack-md flex justify-between items-center">
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="picture_as_pdf">picture_as_pdf</span>
+<div>
+<p class="text-label-bold font-label-bold">Annual_Report_2023.pdf</p>
+<p class="text-micro text-on-surface-variant">Verified by System • 4.2 MB</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="download">download</span>
+</div>
+<div class="p-stack-md flex justify-between items-center">
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="description">description</span>
+<div>
+<p class="text-label-bold font-label-bold">Tax_Compliance_Statement.pdf</p>
+<p class="text-micro text-on-surface-variant">Pending Manual Review • 1.1 MB</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="visibility">visibility</span>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="bg-primary-container text-white p-stack-lg rounded-xl flex flex-col gap-stack-md">
+<p class="font-label-bold text-label-bold">Executive Actions</p>
+<div class="flex flex-col sm:flex-row gap-stack-sm">
+<button class="flex-1 py-3 bg-status-approved hover:bg-emerald-600 transition-colors rounded font-bold uppercase tracking-wider text-label-bold">Approve Loan</button>
+<button class="flex-1 py-3 bg-status-rejected hover:bg-red-600 transition-colors rounded font-bold uppercase tracking-wider text-label-bold">Reject</button>
+<button class="flex-1 py-3 border border-on-primary-container hover:bg-white/10 transition-colors rounded font-bold uppercase tracking-wider text-label-bold">Add Comment</button>
+</div>
+</div>
+<!-- Audit Log (Mini) -->
+<div class="p-stack-lg bg-white border border-border-subtle rounded-xl">
+<h5 class="font-label-bold text-label-bold mb-stack-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="history">history</span>
+                    Internal Audit Trail
+                </h5>
+<div class="space-y-stack-md">
+<div class="flex gap-stack-md">
+<div class="w-1 bg-border-subtle rounded-full"></div>
+<div class="flex-1">
+<p class="text-micro font-bold">2024-05-12 14:30</p>
+<p class="text-label-bold font-label-bold">System: Credit score automated check passed.</p>
+<p class="text-micro text-on-surface-variant">Origin: Internal API Gateway</p>
+</div>
+</div>
+<div class="flex gap-stack-md">
+<div class="w-1 bg-secondary rounded-full"></div>
+<div class="flex-1">
+<p class="text-micro font-bold">2024-05-12 10:15</p>
+<p class="text-label-bold font-label-bold">Admin Sarah L: Flagged for higher tier review.</p>
+<p class="text-micro text-on-surface-variant">Comment: "Company revenue looks strong, verify VAT status."</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Nav Bar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 w-full z-50 border-t border-border-subtle dark:border-outline-variant shadow-lg dark:shadow-none flex justify-around items-center w-full px-4 pb-safe bg-surface dark:bg-inverse-surface h-16">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-micro text-micro">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl p-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-micro text-micro">Apps</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="font-micro text-micro">Loans</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2" href="#">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+<span class="font-micro text-micro">More</span>
+</a>
+</nav>
+<!-- Interactive Layer -->
+<script>
+        function openDetailView(id) {
+            const overlay = document.getElementById('detail-overlay');
+            overlay.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeDetailView() {
+            const overlay = document.getElementById('detail-overlay');
+            overlay.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('hidden');
+                sidebar.classList.add('flex');
+            } else {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('flex');
+            }
+        }
+    </script>
+</body></html>
