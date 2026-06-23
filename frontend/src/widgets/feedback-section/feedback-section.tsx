@@ -75,10 +75,10 @@ export function FeedbackSection() {
             <MessageSquare className="size-6 text-green-600" />
           </div>
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-[var(--color-on-surface)] sm:text-4xl">
-            Остались вопросы?
+            Свяжитесь с нами
           </h2>
           <p className="mt-3 text-lg leading-relaxed text-[var(--color-on-surface-variant)]">
-            Напишите нам — поможем подобрать сумму и объясним условия простым языком.
+            Если у вас есть вопросы или вам нужна помощь — наша команда готова помочь.
           </p>
         </div>
 
@@ -136,6 +136,15 @@ export function FeedbackSection() {
                 className="mt-1 w-full rounded-xl border border-black/20 bg-white px-4 py-3 text-sm text-black outline-none transition focus:border-[var(--color-secondary)] focus:ring-2 focus:ring-[var(--color-secondary)]/20"
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-black">
+                Прикрепление файла
+              </label>
+              <input
+                type="file"
+                className="mt-1 w-full rounded-xl border border-black/20 bg-white px-4 py-3 text-sm text-black outline-none transition file:mr-3 file:rounded-lg file:border-0 file:bg-[var(--color-secondary)] file:px-3 file:py-1.5 file:text-xs file:text-white focus:border-[var(--color-secondary)] focus:ring-2 focus:ring-[var(--color-secondary)]/20"
+              />
+            </div>
             <label className="flex items-start gap-3">
               <input
                 required
@@ -154,7 +163,7 @@ export function FeedbackSection() {
             )}
 
             <Button type="submit" disabled={status === 'loading'} className="w-full">
-              {status === 'loading' ? 'Отправка...' : 'Написать в поддержку'}
+              {status === 'loading' ? 'Отправка...' : 'Отправить'}
             </Button>
           </form>
         )}

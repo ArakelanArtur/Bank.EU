@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Menu, X, LogOut } from 'lucide-react';
 import { PUBLIC_NAV_ITEMS } from '../config/navigation';
+import { useAuth } from '../lib/auth-context';
 import { LogoIcon } from './logo-icon';
 import { Button } from './button';
 import { Section } from './section';
@@ -12,6 +13,8 @@ import { cn } from '../lib/cn';
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { isAuthenticated, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const isAdminOrCabinet = pathname.startsWith('/admin') || pathname.startsWith('/cabinet') || pathname.startsWith('/login') || pathname.startsWith('/register');
@@ -49,9 +52,20 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-4">
-            <Link href="/login" className="hidden sm:inline">
-              <Button variant="ghost" size="md" className="text-base font-semibold">Вход</Button>
-            </Link>
+            <div className="hidden sm:flex flex-col gap-1">
+              <Link href="/login">
+                <Button variant="ghost" size="md" className="w-full text-base font-semibold">Войти</Button>
+              </Link>
+              {isAuthenticated && (
+                <button
+                  onClick={() => { logout(); router.push('/'); }}
+                  className="flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-[var(--color-on-surface-variant)] transition hover:bg-red-50 hover:text-red-600"
+                >
+                  <LogOut className="size-4" />
+                  Выйти
+                </button>
+              )}
+            </div>
             <Link href="/register" className="hidden sm:inline">
               <Button size="md" className="text-base font-semibold">Регистрация</Button>
             </Link>
@@ -111,8 +125,17 @@ export function SiteHeader() {
 
         <div className="border-t border-black/20 p-4">
           <Link href="/login" onClick={() => setMobileOpen(false)}>
-            <Button variant="ghost" className="w-full text-base font-semibold">Вход</Button>
+            <Button variant="ghost" className="w-full text-base font-semibold">Войти</Button>
           </Link>
+          {isAuthenticated && (
+            <button
+              onClick={() => { logout(); router.push('/'); setMobileOpen(false); }}
+              className="mt-2 flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold text-[var(--color-on-surface-variant)] transition hover:bg-red-50 hover:text-red-600"
+            >
+              <LogOut className="size-4" />
+              Выйти
+            </button>
+          )}
           <Link href="/register" onClick={() => setMobileOpen(false)}>
             <Button className="mt-2 w-full text-base font-semibold">Регистрация</Button>
           </Link>

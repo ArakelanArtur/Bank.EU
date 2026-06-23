@@ -126,8 +126,6 @@ export class ApplicationsService {
       },
     });
 
-    await this.generatePaymentSchedule(loan.id, Number(app.amount), Number(app.dailyRate), app.termDays, calc.annuityPayment);
-
     await this.prisma.notification.create({
       data: {
         userId: app.userId,
@@ -138,37 +136,6 @@ export class ApplicationsService {
     });
 
     return loan;
-  }
-
-  private async generatePaymentSchedule(loanId: string, principal: number, dailyRate: number, termDays: number, annuityPayment: number) {
-    const items: any[] = [];
-    let outstandingBalance = principal;
-
-    for (let i = 1; i <= termDays; i++) {
-      const dueDate = new Date();
-      dueDate.setDate(dueDate.getDate() + i);
-
-      const interestPart = Math.round(outstandingBalance * dailyRate * 100) / 100;
-      let principalPart = Math.round((annuityPayment - interestPart) * 100) / 100;
-      if (principalPart > outstandingBalance) {
-        principalPart = Math.round(outstandingBalance * 100) / 100;
-      }
-      outstandingBalance = Math.round((outstandingBalance - principalPart) * 100) / 100;
-
-      items.push({
-        loanId,
-        installmentNumber: i,
-        dueDate,
-        amountDue: principalPart + interestPart,
-        principalPart,
-        interestPart,
-        status: 'PENDING',
-      });
-    }
-
-    if (items.length > 0) {
-      await this.prisma.paymentScheduleItem.createMany({ data: items });
-    }
   }
 
   async addNote(applicationId: string, adminUserId: string, content: string) {

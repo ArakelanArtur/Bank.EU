@@ -48,11 +48,14 @@ export function HeroSection() {
             className="space-y-4"
           >
             <h1 className="max-w-3xl text-4xl font-bold tracking-tight leading-tight text-[var(--color-on-surface)] sm:text-5xl lg:text-6xl">
-              Займ за 5 минут без справок
+              Получите деньги тогда, когда это действительно нужно
             </h1>
             <p className="max-w-xl text-lg leading-relaxed text-[var(--color-on-surface-variant)]">
-              Выберите сумму и срок, получите предварительный расчёт и отправьте заявку онлайн.
-              Решение — за несколько минут, перевод — на карту.
+              Простые и прозрачные займы для частных лиц и бизнеса в Европе — быстрое решение и безопасное оформление
+            </p>
+            <p className="max-w-xl text-base leading-relaxed text-[var(--color-on-surface-variant)]">
+              Неожиданные расходы или срочные возможности не должны вас останавливать.
+              Сервис помогает быстро получить финансирование — без сложных процедур и скрытых условий.
             </p>
           </motion.div>
 
@@ -63,12 +66,9 @@ export function HeroSection() {
             transition={{ duration: 0.55, ease: 'easeOut', delay: 0.2 }}
             className="flex flex-col gap-3 sm:flex-row"
           >
-            <Link href="/register">
-              <Button size="lg" className="min-w-44">Подать заявку</Button>
-            </Link>
-            <Link href="/credit-policy">
-              <Button variant="secondary" size="lg" className="min-w-44">Посмотреть условия</Button>
-            </Link>
+              <Link href="/register">
+                <Button size="lg" className="min-w-44">Получить займ</Button>
+              </Link>
           </motion.div>
 
           <motion.div

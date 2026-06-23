@@ -159,7 +159,7 @@ export default function CabinetDashboardPage() {
         <div className="md:col-span-4 space-y-5">
           <div className="rounded-xl border border-black/20 bg-white p-5">
             <div className="mb-3 flex items-center gap-2">
-              <Bell className="size-4 text-[var(--color-secondary)]" />
+              <Bell className="size-4 text-black" />
               <h3 className="text-sm font-bold text-[var(--color-on-surface)]">Уведомления</h3>
             </div>
             <div className="divide-y divide-black/20">

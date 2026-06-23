@@ -2,33 +2,27 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'motion/react';
-import { FileText, Search, CheckCheck, Banknote } from 'lucide-react';
+import { Smartphone, FileText, Banknote } from 'lucide-react';
 import { Section } from '@/shared/ui/section';
 
 const STEPS = [
   {
     number: '01',
-    icon: FileText,
-    title: 'Заявка',
-    text: 'Укажите сумму, срок и базовые данные в короткой анкете.',
+    icon: Smartphone,
+    title: 'Регистрация',
+    text: 'Введите номер телефона и подтвердите его с помощью SMS-кода.',
   },
   {
     number: '02',
-    icon: Search,
-    title: 'Проверка',
-    text: 'Система проверяет анкету и рассчитывает индивидуальные условия.',
+    icon: FileText,
+    title: 'Заявка',
+    text: 'Выберите сумму и срок займа и отправьте заявку на рассмотрение.',
   },
   {
     number: '03',
-    icon: CheckCheck,
-    title: 'Одобрение',
-    text: 'Подтвердите условия, если они подходят, и подпишите договор онлайн.',
-  },
-  {
-    number: '04',
     icon: Banknote,
-    title: 'Получение денег',
-    text: 'После подтверждения перевод поступает на карту выбранного банка.',
+    title: 'Получение средств',
+    text: 'После одобрения деньги поступают на ваш банковский счёт.',
   },
 ];
 
@@ -51,17 +45,17 @@ export function HowItWorksStepsSection() {
         className="mx-auto max-w-2xl text-center"
       >
         <h2 className="text-3xl font-bold tracking-tight text-[var(--color-on-surface)] sm:text-4xl">
-          Как мы работаем
+          Как всё происходит
         </h2>
         <p className="mt-3 text-lg leading-relaxed text-[var(--color-on-surface-variant)]">
-          Весь путь от заявки до перевода денег разбит на четыре понятных шага.
+          Оформление займа занимает всего несколько минут и полностью проходит онлайн, без визитов в офис и сложных процедур.
         </p>
       </motion.div>
 
       <motion.div
         ref={ref}
         layout
-        className={`mx-auto mt-10 ${expanded ? 'grid gap-4 sm:grid-cols-2 lg:grid-cols-4' : ''}`}
+        className={`mx-auto mt-10 ${expanded ? 'grid gap-4 sm:grid-cols-3' : ''}`}
         style={!expanded ? { maxWidth: 280, position: 'relative', height: 300 } : {}}
       >
         {STEPS.map((step, i) => {

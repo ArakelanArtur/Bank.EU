@@ -46,13 +46,30 @@ export function SiteFooter() {
                 </ul>
               </div>
             ))}
+
+            <div>
+              <p className="mb-4 text-sm font-bold text-[var(--color-on-surface)]">Контакты</p>
+              <ul className="space-y-3 text-sm text-[var(--color-on-surface-variant)]">
+                <li>18 Lower Baggot Street, Dublin 2, Ireland</li>
+                <li>
+                  <a href={`mailto:${COMPANY_INFO.email}`} className="transition hover:text-[var(--color-secondary)]">
+                    {COMPANY_INFO.email}
+                  </a>
+                </li>
+                <li>
+                  <a href={`tel:${COMPANY_INFO.phone}`} className="transition hover:text-[var(--color-secondary)]">
+                    {COMPANY_INFO.phone}
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
 
           <div className="mt-12 border-t border-black/20 pt-8 text-center text-xs text-[var(--color-on-surface-variant)]">
             <p>&copy; {new Date().getFullYear()} LumenBridge Finance Ltd. Все права защищены.</p>
             <p className="mt-2 leading-5">
-              LumenBridge Finance Ltd зарегистрирована в соответствии с законодательством Европейского Союза.
-              Все операции являются учебными и не представляют реальных финансовых услуг.
+              LumenBridge Finance Ltd осуществляет деятельность в соответствии с применимым европейским законодательством.
+              Обработка персональных данных осуществляется в рамках требований GDPR.
             </p>
           </div>
         </div>

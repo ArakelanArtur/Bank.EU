@@ -103,6 +103,8 @@ export class LoansService {
       },
     });
 
+    await this.generatePaymentSchedule(loanId, Number(loan.principalAmount), Number(loan.dailyRate), loan.termDays, Number(loan.annuityPayment));
+
     await this.prisma.notification.create({
       data: {
         userId,
@@ -113,6 +115,37 @@ export class LoansService {
     });
 
     return updated;
+  }
+
+  private async generatePaymentSchedule(loanId: string, principal: number, dailyRate: number, termDays: number, annuityPayment: number) {
+    const items: any[] = [];
+    let outstandingBalance = principal;
+
+    for (let i = 1; i <= termDays; i++) {
+      const dueDate = new Date();
+      dueDate.setDate(dueDate.getDate() + i);
+
+      const interestPart = Math.round(outstandingBalance * dailyRate * 100) / 100;
+      let principalPart = Math.round((annuityPayment - interestPart) * 100) / 100;
+      if (principalPart > outstandingBalance) {
+        principalPart = Math.round(outstandingBalance * 100) / 100;
+      }
+      outstandingBalance = Math.round((outstandingBalance - principalPart) * 100) / 100;
+
+      items.push({
+        loanId,
+        installmentNumber: i,
+        dueDate,
+        amountDue: principalPart + interestPart,
+        principalPart,
+        interestPart,
+        status: 'PENDING',
+      });
+    }
+
+    if (items.length > 0) {
+      await this.prisma.paymentScheduleItem.createMany({ data: items });
+    }
   }
 
   async findAllAdmin(filters?: { status?: string }) {
@@ -128,9 +161,24 @@ export class LoansService {
     });
   }
 
+  private readonly ALLOWED_TRANSITIONS: Record<string, string[]> = {
+    PENDING_SIGNATURE: ['ACTIVE', 'REJECTED'],
+    ACTIVE: ['CLOSED', 'OVERDUE'],
+    OVERDUE: ['CLOSED', 'ACTIVE'],
+    CLOSED: [],
+    REJECTED: [],
+  };
+
   async updateStatus(id: string, status: string) {
     const loan = await this.prisma.loan.findUnique({ where: { id } });
     if (!loan) throw new NotFoundException('Loan not found');
+
+    const allowed = this.ALLOWED_TRANSITIONS[loan.status];
+    if (!allowed || !allowed.includes(status)) {
+      throw new BadRequestException(
+        `Cannot transition from ${loan.status} to ${status}. Allowed: ${(allowed || []).join(', ') || 'none'}`,
+      );
+    }
 
     const data: any = { status: status as any };
     if (status === 'CLOSED') {
@@ -144,6 +192,9 @@ export class LoansService {
           message: `Loan ${loan.loanNumber} has been closed.`,
         },
       });
+    }
+    if (status === 'ACTIVE' && loan.status === 'PENDING_SIGNATURE') {
+      data.issuedAt = new Date();
     }
 
     return this.prisma.loan.update({ where: { id }, data });

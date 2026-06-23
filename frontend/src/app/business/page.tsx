@@ -114,7 +114,7 @@ export default function BusinessPage() {
                 {[
                   'Certificate of Incorporation',
                   'Регистрационный номер компании',
-                  'Удостоверение личности директора',
+                  'Удостоверение личности директора или уполномоченного лица',
                   'Банковская выписка за последние месяцы',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm text-[var(--color-on-surface-variant)]">
@@ -143,6 +143,29 @@ export default function BusinessPage() {
               </ul>
             </div>
           </div>
+
+          <h2 className="mt-16 text-2xl font-semibold text-[var(--color-on-surface)]">
+            Порядок оформления
+          </h2>
+          <div className="mt-6 space-y-4 text-sm leading-7 text-[var(--color-on-surface-variant)]">
+            <p>
+              На текущем этапе заявки на финансирование для бизнеса принимаются через форму обратной связи.
+            </p>
+            <p>
+              После получения заявки с вами свяжется специалист для уточнения деталей и дальнейшего оформления.
+            </p>
+            <p>
+              Онлайн-кабинет для бизнеса находится в разработке и будет доступен позже.
+            </p>
+          </div>
+
+          <h2 className="mt-16 text-2xl font-semibold text-[var(--color-on-surface)]">
+            Заключение
+          </h2>
+          <p className="mt-6 text-sm leading-7 text-[var(--color-on-surface-variant)]">
+            Мы понимаем, что бизнесу важны скорость, предсказуемость и понятные условия.
+            Компания предоставляет решения, которые позволяют сосредоточиться на развитии, не отвлекаясь на сложные финансовые процессы.
+          </p>
         </div>
       </Section>
     </>

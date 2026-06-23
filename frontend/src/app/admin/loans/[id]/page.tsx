@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, CreditCard, CheckCircle, Ban, Loader2 } from 'lucide-react';
+import { ArrowLeft, CreditCard, CheckCircle, Ban, Loader2, DollarSign } from 'lucide-react';
+import Link from 'next/link';
 import { adminGetLoan, adminUpdateLoanStatus, type AdminLoan, type LoanStatus } from '@/shared/api/admin';
 import { cn } from '@/shared/lib/cn';
 import { Button } from '@/shared/ui/button';
@@ -11,6 +12,7 @@ import { ApiError } from '@/shared/api/client';
 
 const STATUS_ACTIONS: { status: LoanStatus; label: string; variant: 'primary' | 'secondary' | 'ghost' }[] = [
   { status: 'ACTIVE', label: 'Активировать', variant: 'primary' },
+  { status: 'OVERDUE', label: 'Отметить просрочку', variant: 'ghost' },
   { status: 'CLOSED', label: 'Закрыть', variant: 'secondary' },
   { status: 'REJECTED', label: 'Отклонить', variant: 'ghost' },
 ];
@@ -139,6 +141,15 @@ export default function AdminLoanDetailPage() {
               </Button>
             );
           })}
+          {loan.status === 'ACTIVE' && (
+            <Link
+              href={`/admin/payments/record?loanId=${loan.id}`}
+              className="inline-flex items-center gap-2 rounded-xl bg-[var(--color-secondary)] px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+            >
+              <DollarSign className="size-4" />
+              Записать платёж
+            </Link>
+          )}
         </div>
       </div>
 

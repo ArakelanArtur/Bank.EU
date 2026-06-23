@@ -1,3 +1,5 @@
+'use client';
+
 import { HeroSection } from '@/widgets/hero-section/hero-section';
 import { CalculatorSection } from '@/widgets/calculator-section/calculator-section';
 import { ConditionsSection } from '@/widgets/conditions-section/conditions-section';

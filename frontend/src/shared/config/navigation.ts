@@ -32,11 +32,11 @@ export const FOOTER_NAV_GROUPS = [
   {
     title: 'Документы',
     items: [
+      { href: '/terms', label: 'Условия использования' },
       { href: '/privacy-policy', label: 'Политика конфиденциальности' },
       { href: '/cookie-policy', label: 'Cookie Policy' },
       { href: '/credit-policy', label: 'Credit Policy' },
       { href: '/aml-kyc-policy', label: 'AML/KYC Policy' },
-      { href: '/terms', label: 'Условия использования' },
     ],
   },
 ] as const;

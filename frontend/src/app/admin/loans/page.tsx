@@ -86,7 +86,7 @@ export default function AdminLoansPage() {
                 <th className="whitespace-nowrap px-5 py-3 text-left font-semibold">Срок</th>
                 <th className="whitespace-nowrap px-5 py-3 text-left font-semibold">Платёж</th>
                 <th className="whitespace-nowrap px-5 py-3 text-left font-semibold">Статус</th>
-                <th className="whitespace-nowrap px-5 py-3 text-left font-semibold">Создан</th>
+                <th className="whitespace-nowrap px-5 py-3 text-left font-semibold">Дата выдачи</th>
                 <th className="whitespace-nowrap px-5 py-3 text-left font-semibold" />
               </tr>
             </thead>
@@ -104,7 +104,7 @@ export default function AdminLoansPage() {
                       <span className={cn('rounded-full px-3 py-1 text-xs font-medium', badge.bg, badge.text)}>{badge.label}</span>
                     </td>
                     <td className="whitespace-nowrap px-5 py-4 text-xs text-[var(--color-on-surface-variant)]">
-                      {new Date(loan.createdAt).toLocaleDateString('ru-RU')}
+                      {loan.issuedAt ? new Date(loan.issuedAt).toLocaleDateString('ru-RU') : '—'}
                     </td>
                     <td className="whitespace-nowrap px-5 py-4">
                       <Link href={`/admin/loans/${loan.id}`} className="flex items-center gap-1 text-xs font-medium text-[var(--color-secondary)] hover:underline">

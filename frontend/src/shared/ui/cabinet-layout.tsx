@@ -98,6 +98,16 @@ export function CabinetLayout({ children }: { children: ReactNode }) {
             <LogOut className="size-4" />
             Выйти
           </button>
+          <button
+            onClick={() => {
+              logout();
+              router.push('/');
+            }}
+            className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-[var(--color-on-surface-variant)] transition hover:bg-red-50 hover:text-red-600"
+          >
+            <LogOut className="size-4" />
+            Выйти на главную
+          </button>
         </div>
       </aside>
 

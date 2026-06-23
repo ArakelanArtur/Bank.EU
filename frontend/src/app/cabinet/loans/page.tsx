@@ -24,7 +24,9 @@ function LoanCard({ loan }: { loan: Loan }) {
                 {loan.loanNumber}
               </p>
               <p className="text-xs text-[var(--color-outline)]">
-                от {new Date(loan.createdAt).toLocaleDateString('ru-RU')}
+                {loan.issuedAt
+                  ? `от ${new Date(loan.issuedAt).toLocaleDateString('ru-RU')}`
+                  : `создан ${new Date(loan.createdAt).toLocaleDateString('ru-RU')}`}
               </p>
             </div>
           </div>
@@ -49,6 +51,14 @@ function LoanCard({ loan }: { loan: Loan }) {
               <span className="text-[var(--color-on-surface-variant)]">След. платёж: </span>
               <span className="font-semibold text-[var(--color-on-surface)]">
                 {new Date(loan.paymentSchedule[0].dueDate).toLocaleDateString('ru-RU')}
+              </span>
+            </div>
+          )}
+          {!isActive && loan.closedAt && (
+            <div>
+              <span className="text-[var(--color-on-surface-variant)]">Погашен: </span>
+              <span className="font-semibold text-[var(--color-on-surface)]">
+                {new Date(loan.closedAt).toLocaleDateString('ru-RU')}
               </span>
             </div>
           )}

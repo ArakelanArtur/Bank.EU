@@ -18,7 +18,7 @@ export default function PaymentReviewPage() {
   const { admin } = useAdminAuth();
   const [actionError, setActionError] = useState('');
 
-  const { data: requests } = useQuery({
+  const { data: requests, isLoading: isLoadingRequests } = useQuery({
     queryKey: ['admin-payment-requests'],
     queryFn: () => adminGetPaymentRequests(),
   });
@@ -33,6 +33,14 @@ export default function PaymentReviewPage() {
     },
     onError: (err) => setActionError(err instanceof ApiError ? err.message : 'Ошибка проверки'),
   });
+
+  if (isLoadingRequests) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="size-8 animate-spin rounded-full border-4 border-[var(--color-secondary)] border-t-transparent" />
+      </div>
+    );
+  }
 
   if (!request) {
     return (
